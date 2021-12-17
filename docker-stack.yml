@@ -10,7 +10,8 @@ services:
       - /mnt/dockerdata/youtrack/logs:/opt/youtrack/logs
       - /mnt/dockerdata/youtrack/backups:/opt/youtrack/backups
     deploy:
-      mode: global
+      replicas: 1
+      placement:
       placement:
         constraints:
           - node.role == manager
