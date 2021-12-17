@@ -17,7 +17,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.services.youtrack-app.loadbalancer.server.port=8080
-        - traefik.http.routers.youtrack-app.rule=host(`yourtrack.yourgeek.nl`)
+        - traefik.http.routers.youtrack-app.rule=host(`youtrack.yourgeek.nl`)
         - traefik.http.routers.youtrack-app.entrypoints=https
         - traefik.http.routers.youtrack-app.tls=true
         - traefik.http.routers.youtrack-app.tls.certresolver=letsencrypt
