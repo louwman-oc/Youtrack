@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - "*"
+
+env:
+  PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Deploy
+        env:
+          DOCKER_HOST: ssh://jpvdw@domain.yourgeek.nl
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${PRIVATE_KEY}"
+          mkdir -p ~/.ssh
+          echo 'StrictHostKeyChecking no' > ~/.ssh/config
+          docker stack deploy --prune -c docker-stack.yml --resolve-image always --with-registry-auth youtrack

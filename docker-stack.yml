@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: jetbrains/youtrack:2021.4.36179
+    hostname: youtrack-app
+    volumes:
+      - /mnt/dockerdata/youtrack/data:/opt/youtrack/data
+      - /mnt/dockerdata/youtrack/conf:/opt/youtrack/conf
+      - /mnt/dockerdata/youtrack/logs:/opt/youtrack/logs
+      - /mnt/dockerdata/youtrack/backups:/opt/youtrack/backups
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.http.services.youtrack-app.loadbalancer.server.port=8080
+        - traefik.http.routers.youtrack-app.rule=host(`yourtrack.yourgeek.nl`)
+        - traefik.http.routers.youtrack-app.entrypoints=https
+        - traefik.http.routers.youtrack-app.tls=true
+        - traefik.http.routers.youtrack-app.tls.certresolver=letsencrypt
+        - traefik.http.routers.youtrack-app.service=youtrack-app
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
