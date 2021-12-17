@@ -9,9 +9,10 @@ env:
   PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v1
       - name: Deploy
         env:
           DOCKER_HOST: ssh://jpvdw@domain.yourgeek.nl
